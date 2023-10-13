@@ -41,7 +41,6 @@ public class UserController {
         USERLIST.add(newUser);
         return newUser;
     }
-
     @DeleteMapping("delete-user/{id}")
     public User deleteById(@PathVariable Long id) {
         User user = USERLIST.stream().filter(element -> element.getId().equals(id)).findFirst().orElse(null);
