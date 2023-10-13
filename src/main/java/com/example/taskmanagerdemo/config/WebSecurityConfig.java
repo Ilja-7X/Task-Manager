@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,11 +20,13 @@ import org.springframework.stereotype.Controller;
 public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/").permitAll();
-                    auth.requestMatchers("/admin").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
-                    auth.requestMatchers("user").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers("/user/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers("/users").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers("/new-user/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
+                    auth.requestMatchers("/delete-user/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
                 })
                 .httpBasic(Customizer.withDefaults())
                 .build();
