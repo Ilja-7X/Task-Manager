@@ -4,7 +4,6 @@ import com.example.taskmanagerdemo.model.Permission;
 import com.example.taskmanagerdemo.model.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,9 +27,13 @@ public class WebSecurityConfig {
                     auth.requestMatchers(HttpMethod.GET,"/users").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
                     auth.requestMatchers(HttpMethod.POST,"/new-user/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
                     auth.requestMatchers(HttpMethod.DELETE, "/delete-user/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
+                    auth.requestMatchers(HttpMethod.GET,"/auth/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+
                 })
-                .httpBasic(Customizer.withDefaults())
-                .build();
+                .formLogin(formLogin -> formLogin.loginPage("/auth/login").permitAll()
+                                .defaultSuccessUrl("/auth/success")
+                                .permitAll()
+                ).build();
     }
 
     @Bean

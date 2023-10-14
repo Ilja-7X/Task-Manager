@@ -1,6 +1,6 @@
 package com.example.taskmanagerdemo.controller;
 
-import com.example.taskmanagerdemo.model.User;
+import com.example.taskmanagerdemo.model.Developer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.stream.Stream;
 
 @RestController
 public class UserController {
-    public List<User> USERLIST = Stream.of(
-            new User(1L, "Ilya", "Oshlakov"),
-            new User(2L, "Alina", "Oshlkova")).collect(Collectors.toList());
+    public List<Developer> USERLIST = Stream.of(
+            new Developer(1L, "Ilya", "Oshlakov"),
+            new Developer(2L, "Alina", "Oshlkova")).collect(Collectors.toList());
 
     @GetMapping("/")
     public String getString() {
@@ -19,31 +19,30 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getUsers() {
+    public List<Developer> getUsers() {
         return USERLIST;
     }
 
     @GetMapping("user/{id}")
-    public User getById(@PathVariable Long id) {
+    public Developer getById(@PathVariable Long id) {
         return USERLIST.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
     }
-
     @PostMapping("/new-user/v1/{id}/{firstName}/{lastName}")
-    public User create(@PathVariable Long id, @PathVariable String firstName, @PathVariable String lastName) {
-        User newUser = new User(id, firstName, lastName);
+    public Developer create(@PathVariable Long id, @PathVariable String firstName, @PathVariable String lastName) {
+        Developer newUser = new Developer(id, firstName, lastName);
         USERLIST.add(newUser);
         return newUser;
     }
 
     @PostMapping("/new-user/v2")
-    public User create(@RequestBody User user) {
-        User newUser = new User(user.getId(), user.getFirstName(), user.getLastName());
+    public Developer create(@RequestBody Developer user) {
+        Developer newUser = new Developer(user.getId(), user.getFirstName(), user.getLastName());
         USERLIST.add(newUser);
         return newUser;
     }
     @DeleteMapping("delete-user/{id}")
-    public User deleteById(@PathVariable Long id) {
-        User user = USERLIST.stream().filter(element -> element.getId().equals(id)).findFirst().orElse(null);
+    public Developer deleteById(@PathVariable Long id) {
+        Developer user = USERLIST.stream().filter(element -> element.getId().equals(id)).findFirst().orElse(null);
         if(user == null) {
             return null;
         }
