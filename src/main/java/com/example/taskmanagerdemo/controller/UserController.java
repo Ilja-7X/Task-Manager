@@ -13,11 +13,6 @@ public class UserController {
             new Developer(1L, "Ilya", "Oshlakov"),
             new Developer(2L, "Alina", "Oshlkova")).collect(Collectors.toList());
 
-    @GetMapping("/")
-    public String getString() {
-        return "Welcome!";
-    }
-
     @GetMapping("/users")
     public List<Developer> getUsers() {
         return USERLIST;

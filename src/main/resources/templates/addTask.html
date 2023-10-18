@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a task</title>
+</head>
+<body>
+<h1>Create a Person:</h1>
+<form th:action="@{/addTask}"
+      th:object="${taskForm}" method="POST">
+    First Name:
+    <input type="text" th:field="*{title}" />
+    <br/>
+    Last Name:
+    <input type="text" th:field="*{description}" />
+    <br/>
+    <input type="submit" value="Create" />
+</form>
+
+<div th:if="${errorMessage}" th:utext="${errorMessage}"
+     style="color:red;font-style:italic;">
+    ...
+</div>
+</body>
+</html>

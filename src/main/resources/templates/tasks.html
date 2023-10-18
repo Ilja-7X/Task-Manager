@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<h1>Task list</h1>
+<div>
+    <table border="1" style="width:300px">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+        <tr th:each ="task : ${tasks}">
+            <td th:utext="${task.title}">...</td>
+            <td th:utext="${task.description}">...</td>
+        </tr>
+    </table>
+</div>
+<a th:href="addTask">Add task</a>
+</body>
+</html>

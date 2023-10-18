@@ -39,12 +39,15 @@ public class WebSecurityConfig {
                     auth.requestMatchers(HttpMethod.POST,"/new-user/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
                     auth.requestMatchers(HttpMethod.DELETE, "/delete-user/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
                     auth.requestMatchers(HttpMethod.GET,"/auth/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers(HttpMethod.GET,"/tasks").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers(HttpMethod.GET,"/addTask").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
+                    auth.requestMatchers(HttpMethod.POST,"/addTask").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
 
                 })
-                .formLogin(formLogin -> formLogin.loginPage("/auth/login").permitAll()
-                                .defaultSuccessUrl("/auth/success")
-                                .permitAll()
-                ).build();
+                .formLogin(formLogin -> formLogin.loginPage("/auth/login")
+                                .defaultSuccessUrl("/tasks")
+                                .permitAll())
+                .build();
     }
 
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -63,5 +66,4 @@ public class WebSecurityConfig {
     protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
-
 }

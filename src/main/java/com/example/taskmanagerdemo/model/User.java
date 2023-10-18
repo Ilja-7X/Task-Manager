@@ -3,6 +3,8 @@ package com.example.taskmanagerdemo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Entity
 @Table(name = "users")
@@ -24,4 +26,6 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
     private Status status;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) //cascade = CascadeType.ALL
+    private Set<Task> tasks;
 }

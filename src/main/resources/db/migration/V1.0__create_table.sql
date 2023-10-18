@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS tasks;
 
 CREATE TABLE users
 (
@@ -11,3 +12,14 @@ CREATE TABLE users
     status VARCHAR(255),
     PRIMARY KEY (id)
 );
+
+CREATE TABLE tasks
+(
+    id bigserial NOT NULL,
+    title VARCHAR(100),
+    description VARCHAR(255),
+    user_id INTEGER,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE tasks ADD FOREIGN KEY (user_id) REFERENCES users;
