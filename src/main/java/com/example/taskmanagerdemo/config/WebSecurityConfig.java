@@ -34,10 +34,6 @@ public class WebSecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.GET,"/").permitAll();
-                    auth.requestMatchers(HttpMethod.GET,"/user/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
-                    auth.requestMatchers(HttpMethod.GET,"/users").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
-                    auth.requestMatchers(HttpMethod.POST,"/new-user/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
-                    auth.requestMatchers(HttpMethod.DELETE, "/delete-user/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
                     auth.requestMatchers(HttpMethod.GET,"/auth/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
                     auth.requestMatchers(HttpMethod.GET,"/tasks").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
                     auth.requestMatchers(HttpMethod.GET,"/addTask").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
