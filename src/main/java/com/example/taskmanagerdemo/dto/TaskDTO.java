@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TaskDTO {
     @NotNull
-    @Max(250)
+    @Size(max = 50)
     private String title;
     @NotNull
     private String description;

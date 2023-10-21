@@ -3,8 +3,10 @@ package com.example.taskmanagerdemo.controller;
 
 import com.example.taskmanagerdemo.dto.TaskDTO;
 import com.example.taskmanagerdemo.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +21,20 @@ public class TaskController {
     }
 
     @PostMapping("new")
-    public ResponseEntity<TaskDTO> createTask( @RequestBody TaskDTO taskDTO) {
-        return new ResponseEntity<>(taskService.createTask(taskDTO), HttpStatus.ACCEPTED);
+    public ResponseEntity<TaskDTO> createTask(@Valid @RequestBody TaskDTO taskDTO, BindingResult result) {
+        if(result.hasErrors()) {
+            return new ResponseEntity<>(taskDTO, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(taskService.createTask(taskDTO), HttpStatus.CREATED);
     }
     @GetMapping("{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable("id") Long userId) {
-        return new ResponseEntity<>(taskService.getTaskById(userId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(taskService.getTaskById(userId), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<TaskDTO>> getAllTasks() {
-        return new ResponseEntity<>(taskService.getAllTask(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(taskService.getAllTask(), HttpStatus.OK);
     }
 
     /*@Value("${error.message}")
