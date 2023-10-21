@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS tasks;
 
 CREATE TABLE users
 (
-    id bigint NOT NULL,
+    id bigserial NOT NULL,
     email VARCHAR(255),
     first_name VARCHAR(255),
     last_name VARCHAR(255),
@@ -17,9 +17,7 @@ CREATE TABLE tasks
 (
     id bigserial NOT NULL,
     title VARCHAR(100),
-    description VARCHAR(255),
-    user_id INTEGER,
+    description TEXT,
+    user_id INTEGER references users(id),
     PRIMARY KEY (id)
 );
-
-ALTER TABLE tasks ADD FOREIGN KEY (user_id) REFERENCES users;
