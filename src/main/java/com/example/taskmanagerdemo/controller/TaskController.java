@@ -1,16 +1,16 @@
 package com.example.taskmanagerdemo.controller;
 
-import com.example.taskmanagerdemo.model.Task;
-import com.example.taskmanagerdemo.model.TaskForm;
-import com.example.taskmanagerdemo.service.TaskService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
+import com.example.taskmanagerdemo.dto.TaskDTO;
+import com.example.taskmanagerdemo.service.TaskService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("tasks")
 public class TaskController {
     private final TaskService taskService;
 
@@ -18,7 +18,21 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @Value("${error.message}")
+    @PostMapping("new")
+    public ResponseEntity<TaskDTO> createTask( @RequestBody TaskDTO taskDTO) {
+        return new ResponseEntity<>(taskService.createTask(taskDTO), HttpStatus.ACCEPTED);
+    }
+    @GetMapping("{id}")
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable("id") Long userId) {
+        return new ResponseEntity<>(taskService.getTaskById(userId), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TaskDTO>> getAllTasks() {
+        return new ResponseEntity<>(taskService.getAllTask(), HttpStatus.ACCEPTED);
+    }
+
+    /*@Value("${error.message}")
     private String errorMessage;
 
     @GetMapping("/")
@@ -53,5 +67,5 @@ public class TaskController {
         }
         model.addAttribute("errorMessage", errorMessage);
         return "addTask";
-    }
+    }*/
 }
