@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,14 +36,14 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.GET,"/").permitAll();
                     auth.requestMatchers(HttpMethod.GET,"/auth/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
-                    auth.requestMatchers(HttpMethod.GET,"/tasks").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
-                    auth.requestMatchers(HttpMethod.GET,"/addTask").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
-                    auth.requestMatchers(HttpMethod.POST,"/addTask").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
-
+                    auth.requestMatchers(HttpMethod.GET,"/users/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers(HttpMethod.GET,"/tasks/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers(HttpMethod.POST,"/tasks/new").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
                 })
-                .formLogin(formLogin -> formLogin.loginPage("/auth/login")
+                /*.formLogin(formLogin -> formLogin.loginPage("/auth/login")
                                 .defaultSuccessUrl("/tasks")
-                                .permitAll())
+                                .permitAll())*/
+                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 
