@@ -5,5 +5,3 @@ spring:
     password: admin
   flyway:
     enabled: true
-error:
-  message: Error adding!
