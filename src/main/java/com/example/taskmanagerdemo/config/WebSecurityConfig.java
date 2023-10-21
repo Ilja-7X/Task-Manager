@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.GET,"/").permitAll();
                     auth.requestMatchers(HttpMethod.GET,"/auth/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
-                    auth.requestMatchers(HttpMethod.GET,"/users/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
+                    auth.requestMatchers(HttpMethod.GET,"/users").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
                     auth.requestMatchers(HttpMethod.GET,"/tasks/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission());
                     auth.requestMatchers(HttpMethod.POST,"/tasks/new").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission());
                 })
